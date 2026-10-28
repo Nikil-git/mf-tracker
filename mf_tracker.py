@@ -270,11 +270,11 @@ button{cursor:pointer;background:var(--ac);border-color:var(--ac);color:#fff}but
 <h2>Add an investment</h2><div class="box"><div class="form">
 <div class="wide"><label>Search the fund (pick the same plan as in Groww, usually “Direct Plan – Growth”)</label>
 <input id="q" placeholder="e.g. parag parikh flexi cap direct growth" autocomplete="off"><div id="res"></div><div id="sel" class="mu" style="margin-top:4px"></div></div>
-<div><label>Type</label><select id="type"><option value="lump">Lump sum</option><option value="sip">Monthly SIP</option><option value="redeem">Redeem (sold)</option></select></div>
+<div><label>Type</label><select id="type"><option value="sip">Monthly SIP</option><option value="redeem">Redeem (sold)</option></select></div>
 <div><label>Amount (Rs.)</label><input id="amount" type="number" min="1" step="any"></div>
 <div><label id="dl">Date</label><input id="start" type="date"></div>
 <div id="endw" style="display:none"><label>SIP end date (blank = still running)</label><input id="end" type="date"></div>
-<div id="unitw"><label>Units (optional, else worked out from NAV)</label><input id="units" type="number" min="0" step="any"></div>
+
 <div><button id="add" style="width:100%">Add</button></div></div><div id="msg"></div></div>
 <h2>My entries</h2><div class="box"><table id="entries"></table></div>
 <p class="mu" style="font-size:12px">NAVs from AMFI via mfapi.in, refreshed automatically. Values are before tax and exit load. Not investment advice.</p>
