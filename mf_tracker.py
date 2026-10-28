@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 import bisect, calendar, json, os, socket, sys, threading, time, uuid, webbrowser
 from datetime import date, datetime, timedelta
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -263,15 +263,15 @@ button{cursor:pointer;background:var(--ac);border-color:var(--ac);color:#fff}but
 .form input,.form select{width:100%}.wide{grid-column:1/-1}#res button{display:block;width:100%;text-align:left;background:var(--bg);color:var(--tx);border-color:var(--line);margin-top:4px}
 #msg{margin-top:8px;min-height:18px}.warn{color:#e6a700;font-size:13px;margin-top:6px}
 </style></head><body>
-<h1>MF Tracker</h1><div class="mu" id="asof">Loading…</div>
+<h1>MF Tracker</h1><div class="mu" id="asof">Loadingâ€¦</div>
 <div class="cards" id="cards"></div><div class="warn" id="warns"></div>
 <h2>Growth</h2><div class="box"><canvas id="chart"></canvas></div><div id="tip"></div>
 <h2>Funds</h2><div class="box"><table id="funds"></table></div>
 <h2>Add an investment</h2><div class="box"><div class="form">
-<div class="wide"><label>Search the fund (pick the same plan as in Groww, usually “Direct Plan – Growth”)</label>
+<div class="wide"><label>Search the fund (pick the same plan as in Groww, usually â€œDirect Plan â€“ Growthâ€)</label>
 <input id="q" placeholder="e.g. parag parikh flexi cap direct growth" autocomplete="off"><div id="res"></div><div id="sel" class="mu" style="margin-top:4px"></div></div>
 <div><label>Type</label><select id="type"><option value="lump">Lump sum</option><option value="sip">Monthly SIP</option><option value="redeem">Redeem (sold)</option></select></div>
-<div><label>Amount (₹)</label><input id="amount" type="number" min="1" step="any"></div>
+<div><label>Amount (â‚¹)</label><input id="amount" type="number" min="1" step="any"></div>
 <div><label id="dl">Date</label><input id="start" type="date"></div>
 <div id="endw" style="display:none"><label>SIP end date (blank = still running)</label><input id="end" type="date"></div>
 <div id="unitw"><label>Units (optional, else worked out from NAV)</label><input id="units" type="number" min="0" step="any"></div>
@@ -280,10 +280,10 @@ button{cursor:pointer;background:var(--ac);border-color:var(--ac);color:#fff}but
 <p class="mu" style="font-size:12px">NAVs from AMFI via mfapi.in, refreshed automatically. Values are before tax and exit load. Not investment advice.</p>
 <script>
 const $=s=>document.querySelector(s);
-const inr=n=>n==null?"–":(n<0?"-":"")+"₹"+Math.abs(Math.round(n)).toLocaleString("en-IN");
-const pc=n=>n==null?"–":(n>0?"+":"")+n.toFixed(2)+"%";
+const inr=n=>n==null?"â€“":(n<0?"-":"")+"â‚¹"+Math.abs(Math.round(n)).toLocaleString("en-IN");
+const pc=n=>n==null?"â€“":(n>0?"+":"")+n.toFixed(2)+"%";
 const cl=n=>n>0?"up":n<0?"down":"";
-const short=n=>{const a=Math.abs(n);return "₹"+(a>=1e7?(a/1e7).toFixed(1)+"Cr":a>=1e5?(a/1e5).toFixed(1)+"L":a>=1e3?(a/1e3).toFixed(0)+"K":Math.round(a))};
+const short=n=>{const a=Math.abs(n);return "â‚¹"+(a>=1e7?(a/1e7).toFixed(1)+"Cr":a>=1e5?(a/1e5).toFixed(1)+"L":a>=1e3?(a/1e3).toFixed(0)+"K":Math.round(a))};
 function el(t,x,c){const e=document.createElement(t);if(x!=null)e.textContent=x;if(c)e.className=c;return e}
 async function api(p,o){const r=await fetch(p,o);const j=await r.json();if(!r.ok)throw new Error(j.error||r.statusText);return j}
 let pts=[],selected=null;
@@ -314,16 +314,16 @@ $("#chart").addEventListener("mouseleave",()=>$("#tip").style.display="none");
 async function load(){
  try{
   const d=await api("/api/portfolio");
-  $("#asof").textContent=d.as_of?"NAVs as of "+d.as_of+" · updates by itself":"No investments yet";
+  $("#asof").textContent=d.as_of?"NAVs as of "+d.as_of+" Â· updates by itself":"No investments yet";
   const C=$("#cards");C.replaceChildren(
    card("Current value",inr(d.value)),card("Invested",inr(d.invested),d.redeemed?"Redeemed "+inr(d.redeemed):""),
-   card("Total gain",inr(d.gain),pc(d.gain_pct),cl(d.gain)),card("XIRR (per year)",d.xirr==null?"–":pc(d.xirr),d.xirr==null?"needs 30+ days":"",cl(d.xirr)),
+   card("Total gain",inr(d.gain),pc(d.gain_pct),cl(d.gain)),card("XIRR (per year)",d.xirr==null?"â€“":pc(d.xirr),d.xirr==null?"needs 30+ days":"",cl(d.xirr)),
    card("Today",inr(d.day_change),"",cl(d.day_change)));
   $("#warns").replaceChildren(...d.warnings.map(w=>el("div",w)));
   draw(d.series);
   const F=$("#funds");F.replaceChildren();row(F,["Fund","Units","NAV","Invested","Value","Gain","XIRR"].map(x=>({t:x})),true);
-  d.funds.forEach(f=>row(F,[{t:f.name},{t:f.units.toLocaleString("en-IN")},{t:"₹"+f.nav.toFixed(2)},{t:inr(f.invested)},{t:inr(f.value)},
-   {t:inr(f.gain)+" ("+pc(f.gain_pct)+")",c:cl(f.gain)},{t:f.xirr==null?"–":pc(f.xirr),c:cl(f.xirr)}]));
+  d.funds.forEach(f=>row(F,[{t:f.name},{t:f.units.toLocaleString("en-IN")},{t:"â‚¹"+f.nav.toFixed(2)},{t:inr(f.invested)},{t:inr(f.value)},
+   {t:inr(f.gain)+" ("+pc(f.gain_pct)+")",c:cl(f.gain)},{t:f.xirr==null?"â€“":pc(f.xirr),c:cl(f.xirr)}]));
   const E=$("#entries");E.replaceChildren();row(E,["Fund","Type","Details",""].map(x=>({t:x})),true);
   d.investments.forEach(i=>{const b=el("button","Delete","x");b.onclick=async()=>{if(!confirm("Delete this entry?"))return;try{await api("/api/investments/"+i.id,{method:"DELETE"});load()}catch(e){$("#msg").textContent=e.message}};
    const det=i.type==="sip"?inr(i.amount)+" every month from "+i.start+(i.end?" to "+i.end:", ongoing"):inr(i.amount)+" on "+i.start+(i.units?" ("+i.units+" units)":"");
@@ -408,8 +408,8 @@ def lan_ip():
 
 def main():
     args = sys.argv[1:]
-    port = int(args[args.index("--port") + 1]) if "--port" in args else 8000
-    host = "0.0.0.0" if "--lan" in args else "127.0.0.1"
+    port = int(os.environ.get("PORT", 8000))
+    host = "0.0.0.0"
     server = ThreadingHTTPServer((host, port), Handler)
     print(f"MF Tracker running: http://localhost:{port}")
     if host == "0.0.0.0":
