@@ -263,15 +263,15 @@ button{cursor:pointer;background:var(--ac);border-color:var(--ac);color:#fff}but
 .form input,.form select{width:100%}.wide{grid-column:1/-1}#res button{display:block;width:100%;text-align:left;background:var(--bg);color:var(--tx);border-color:var(--line);margin-top:4px}
 #msg{margin-top:8px;min-height:18px}.warn{color:#e6a700;font-size:13px;margin-top:6px}
 </style></head><body>
-<h1>MF Tracker</h1><div class="mu" id="asof">LoadingÃ¢â‚¬Â¦</div>
+<h1>MF Tracker</h1><div class="mu" id="asof">Loading&rdquo;¦</div>
 <div class="cards" id="cards"></div><div class="warn" id="warns"></div>
 <h2>Growth</h2><div class="box"><canvas id="chart"></canvas></div><div id="tip"></div>
 <h2>Funds</h2><div class="box"><table id="funds"></table></div>
 <h2>Add an investment</h2><div class="box"><div class="form">
-<div class="wide"><label>Search the fund (pick the same plan as in Groww, usually Ã¢â‚¬Å&ldquo;Direct Plan Ã¢â‚¬&ldquo; GrowthÃ¢â‚¬Â)</label>
+<div class="wide"><label>Search the fund (pick the same plan as in Groww, usually Ã¢â‚¬Å&ldquo;Direct Plan &#8377; Growth&rdquo;)</label>
 <input id="q" placeholder="e.g. parag parikh flexi cap direct growth" autocomplete="off"><div id="res"></div><div id="sel" class="mu" style="margin-top:4px"></div></div>
 <div><label>Type</label><select id="type"><option value="lump">Lump sum</option><option value="sip">Monthly SIP</option><option value="redeem">Redeem (sold)</option></select></div>
-<div><label>Amount (Ã¢&rdquo;šÂ¹)</label><input id="amount" type="number" min="1" step="any"></div>
+<div><label>Amount (&#8377;)</label><input id="amount" type="number" min="1" step="any"></div>
 <div><label id="dl">Date</label><input id="start" type="date"></div>
 <div id="endw" style="display:none"><label>SIP end date (blank = still running)</label><input id="end" type="date"></div>
 <div id="unitw"><label>Units (optional, else worked out from NAV)</label><input id="units" type="number" min="0" step="any"></div>
@@ -280,10 +280,10 @@ button{cursor:pointer;background:var(--ac);border-color:var(--ac);color:#fff}but
 <p class="mu" style="font-size:12px"></p>
 <script>
 const $=s=>document.querySelector(s);
-const inr=n=>n==null?"Ã¢â‚¬&ldquo;":(n<0?"-":"")+"Ã¢&rdquo;šÂ¹"+Math.abs(Math.round(n)).toLocaleString("en-IN");
-const pc=n=>n==null?"Ã¢â‚¬&ldquo;":(n>0?"+":"")+n.toFixed(2)+"%";
+const inr=n=>n==null?"&#8377;":(n<0?"-":"")+"&#8377;"+Math.abs(Math.round(n)).toLocaleString("en-IN");
+const pc=n=>n==null?"&#8377;":(n>0?"+":"")+n.toFixed(2)+"%";
 const cl=n=>n>0?"up":n<0?"down":"";
-const short=n=>{const a=Math.abs(n);return "Ã¢&rdquo;šÂ¹"+(a>=1e7?(a/1e7).toFixed(1)+"Cr":a>=1e5?(a/1e5).toFixed(1)+"L":a>=1e3?(a/1e3).toFixed(0)+"K":Math.round(a))};
+const short=n=>{const a=Math.abs(n);return "&#8377;"+(a>=1e7?(a/1e7).toFixed(1)+"Cr":a>=1e5?(a/1e5).toFixed(1)+"L":a>=1e3?(a/1e3).toFixed(0)+"K":Math.round(a))};
 function el(t,x,c){const e=document.createElement(t);if(x!=null)e.textContent=x;if(c)e.className=c;return e}
 async function api(p,o){const r=await fetch(p,o);const j=await r.json();if(!r.ok)throw new Error(j.error||r.statusText);return j}
 let pts=[],selected=null;
@@ -317,13 +317,13 @@ async function load(){
   $("#asof").textContent=d.as_of?"":"No investments yet";
   const C=$("#cards");C.replaceChildren(
    card("Current value",inr(d.value)),card("Invested",inr(d.invested),d.redeemed?"Redeemed "+inr(d.redeemed):""),
-   card("Total gain",inr(d.gain),pc(d.gain_pct),cl(d.gain)),card("XIRR (per year)",d.xirr==null?"Ã¢â‚¬&ldquo;":pc(d.xirr),d.xirr==null?"needs 30+ days":"",cl(d.xirr)),
+   card("Total gain",inr(d.gain),pc(d.gain_pct),cl(d.gain)),card("XIRR (per year)",d.xirr==null?"&#8377;":pc(d.xirr),d.xirr==null?"needs 30+ days":"",cl(d.xirr)),
    card("Today",inr(d.day_change),"",cl(d.day_change)));
   $("#warns").replaceChildren(...d.warnings.map(w=>el("div",w)));
   draw(d.series);
   const F=$("#funds");F.replaceChildren();row(F,["Fund","Units","NAV","Invested","Value","Gain","XIRR"].map(x=>({t:x})),true);
-  d.funds.forEach(f=>row(F,[{t:f.name},{t:f.units.toLocaleString("en-IN")},{t:"Ã¢&rdquo;šÂ¹"+f.nav.toFixed(2)},{t:inr(f.invested)},{t:inr(f.value)},
-   {t:inr(f.gain)+" ("+pc(f.gain_pct)+")",c:cl(f.gain)},{t:f.xirr==null?"Ã¢â‚¬&ldquo;":pc(f.xirr),c:cl(f.xirr)}]));
+  d.funds.forEach(f=>row(F,[{t:f.name},{t:f.units.toLocaleString("en-IN")},{t:"&#8377;"+f.nav.toFixed(2)},{t:inr(f.invested)},{t:inr(f.value)},
+   {t:inr(f.gain)+" ("+pc(f.gain_pct)+")",c:cl(f.gain)},{t:f.xirr==null?"&#8377;":pc(f.xirr),c:cl(f.xirr)}]));
   const E=$("#entries");E.replaceChildren();row(E,["Fund","Type","Details",""].map(x=>({t:x})),true);
   d.investments.forEach(i=>{const b=el("button","Delete","x");b.onclick=async()=>{if(!confirm("Delete this entry?"))return;try{await api("/api/investments/"+i.id,{method:"DELETE"});load()}catch(e){$("#msg").textContent=e.message}};
    const det=i.type==="sip"?inr(i.amount)+" every month from "+i.start+(i.end?" to "+i.end:", ongoing"):inr(i.amount)+" on "+i.start+(i.units?" ("+i.units+" units)":"");
