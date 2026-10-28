@@ -192,7 +192,7 @@ def portfolio():
         invested = sum(e[1] for e in ev if e[1] > 0)
         redeemed = -sum(e[1] for e in ev if e[1] < 0)
         value = max(units, 0) * nav
-        gain = value + redeemed - invested
+        gain = value - invested
         day = units * (nav - fund["navs"][-2]) if len(fund["navs"]) > 1 and units > 0 else 0.0
         flows = [(e[0], -e[1]) for e in ev] + [(nav_date, value)]
         flows_all += flows
@@ -231,7 +231,7 @@ def portfolio():
                 net += n
             series.append({"d": g.isoformat(), "v": round(val, 2), "i": round(net, 2)})
 
-    gain = tot["value"] + tot["redeemed"] - tot["invested"]
+    gain = tot["value"] - tot["invested"]
     funds_out.sort(key=lambda f: f["value"], reverse=True)
     x = xirr(flows_all)
     return {"invested": round(tot["invested"], 2), "redeemed": round(tot["redeemed"], 2),
