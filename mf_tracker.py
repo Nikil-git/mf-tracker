@@ -268,7 +268,7 @@ button{cursor:pointer;background:var(--ac);border-color:var(--ac);color:#fff}but
 <h2>Growth</h2><div class="box"><canvas id="chart"></canvas></div><div id="tip"></div>
 <h2>Funds</h2><div class="box"><table id="funds"></table></div>
 <h2>Add an investment</h2><div class="box"><div class="form">
-<div class="wide"><label>Search the fund (pick the same plan as in Groww, usually Ã¢â‚¬Å“Direct Plan Ã¢â‚¬&ldquo; GrowthÃ¢â‚¬Â)</label>
+<div class="wide"><label>Search the fund (pick the same plan as in Groww, usually Ã¢â‚¬Å&ldquo;Direct Plan Ã¢â‚¬&ldquo; GrowthÃ¢â‚¬Â)</label>
 <input id="q" placeholder="e.g. parag parikh flexi cap direct growth" autocomplete="off"><div id="res"></div><div id="sel" class="mu" style="margin-top:4px"></div></div>
 <div><label>Type</label><select id="type"><option value="lump">Lump sum</option><option value="sip">Monthly SIP</option><option value="redeem">Redeem (sold)</option></select></div>
 <div><label>Amount (Ã¢&rdquo;šÂ¹)</label><input id="amount" type="number" min="1" step="any"></div>
